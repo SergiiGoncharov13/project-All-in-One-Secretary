@@ -53,6 +53,21 @@ class Notebook(UserDict):
         if title not in self.data:
             self.data[title] = NoteRecord(title, note)
         return self.data[title] 
+    
+    def change_note(self,title,note):
+        if title in self.data():
+            self.data[title].content = note
+            print (f"Note {title} changed")
+        else:
+            print (f"Note {title} not found. Create new note")
+        
+    def change_tag(self,title,tag,new_tag):
+        if title in self.data():
+            self.data[title].remove_tag(tag)
+            self.data[title].add_tag(new_tag)
+            print (f"Tags updated")
+        else:
+            print (f"Note {title} not found.")
 
     def find_by_title(self, title):
         return self.data.get(title)
