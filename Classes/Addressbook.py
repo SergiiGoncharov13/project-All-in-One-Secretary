@@ -1,6 +1,7 @@
 from Classes.Record import Record
 from collections import UserDict
 import json
+from func_get_birthday import get_birthdays_in_days
 
 
 class AddressBook(UserDict):
@@ -16,8 +17,15 @@ class AddressBook(UserDict):
         self.data.pop(name, None)
 
     def birthdays(self,days):
-        pass
+        get_birthdays_in_days(self,days)
 
+    def change_contact(self, name, phone, new_phone):
+        if name in self.data:
+            self.data[name].edit_phone(phone,new_phone)
+            print (f"{name}'s phone changed")       
+        else:
+            print (f"Contact {name} not found")
+        
     def save_to_file(self, filename):
         try:
             with open(filename, "w") as file:
