@@ -66,7 +66,7 @@ class Record:
         if data["email"]:
             record.add_email(data["email"])
         if data["address"]:
-            record.add_email(data["address"])
+            record.add_address(data["address"])
         return record
 
 
