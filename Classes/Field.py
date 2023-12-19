@@ -103,3 +103,40 @@ class Email(Field):
             self.__value = value
         else:
             raise EmailFormatError("Invalid email format")
+        
+
+class NoteTitle(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, value):
+        if value:
+            self.__value = value
+        else:
+            raise ValueError("Title is a required field.")
+
+class NoteContent(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
+class NoteCreationDate(Field):
+    def __init__(self, value):
+        super().__init__(value)
+        self.value = datetime.today().date()
+
+    def __str__(self):
+        return self.value.strftime("%d.%m.%Y")
+
+class NoteDeadline(Birthday):
+    def __init__(self, value):
+        super().__init__(value)
+
+class NoteTag(Field):
+    def __init__(self, value):
+        super().__init__(value)
+    
