@@ -82,7 +82,13 @@ class Birthday(Field):
             raise DateFormatError()
 
     def __str__(self):
-        return self.value.strftime("%d.%m.%Y") if self.value else "No data"
+        return self.value.strftime("%d.%m.%Y") if self.value else None
+    
+
+class Address(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
 
 
 class EmailFormatError(ValueError):
