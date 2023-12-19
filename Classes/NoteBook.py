@@ -1,6 +1,6 @@
 from collections import UserDict, defaultdict
 from datetime import datetime
-from Field import NoteTitle, NoteContent, NoteCreationDate, NoteDeadline, NoteTag
+from Classes.Classes_for_secretary import NoteTitle, NoteContent, NoteCreationDate, NoteDeadline, NoteTag
 
 class NoteRecord:
     def __init__(self, title, content):

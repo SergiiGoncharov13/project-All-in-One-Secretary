@@ -1,4 +1,7 @@
+from Classes.Addressbook import AddressBook
 
+
+book = AddressBook()
 
 def error_handler(func):
     def inner(*args, **kwargs):

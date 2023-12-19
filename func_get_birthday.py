@@ -1,28 +1,8 @@
-
+from Classes.Classes_for_secretary import Birthday
 from datetime import datetime
 from collections import defaultdict   
 
-class Birthday:
-    DATE_FORMAT = "%Y-%m-%d"
 
-    def __init__(self, value):
-        self.__value = value
-
-    @property
-    def value(self):
-        return self.__value
-
-    @value.setter
-    def value(self, value):
-        try:
-            datetime.strptime(value, self.DATE_FORMAT)
-        except ValueError:
-            raise ValueError("Invalid birthday format. Use YYYY-MM-DD.")
-            
-        self.__value = value
-
-# Class Record
-# Class AddressBook
 
 def get_birthdays_in_days(self, days_ahead):
     today = datetime.today().date()
