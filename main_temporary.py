@@ -1,6 +1,5 @@
 from Classes.Addressbook import AddressBook
 
-
 book = AddressBook()
 
 def error_handler(func):
@@ -8,35 +7,75 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except KeyError:
-            return "This contact doesnt exist, please try again"
+            return "Цей контакт не існує, будь ласка, спробуйте ще раз"
         except ValueError as exception:
             return exception.args[0]
         except IndexError:
-            return "This contact cannot be added, it exists already"
+            return "Цей контакт не може бути доданий, він вже існує"
         except TypeError:
-            return "Unknown command, please try again"
+            return "Невідома команда, будь ласка, спробуйте ще раз"
     return inner
-
 
 def hello(_):
     return "How can I help you?"
     
 def exit(_):
-    return "Good bye!"
+    return "Goodbye!"
 
+def add_contact(name):
+    book.add_record(name)
+    return f"Контакт {name} успішно додано."
+
+def change_contact(name, phone, new_phone):
+    book.change_contact(name, phone, new_phone)
+    return f"Номер телефону {name} успішно змінено."
+
+def show_all(_):
+    return str(book)
+
+def show_phone(name):
+    contact = book.find_contact(name)
+    if contact:
+        return f"Номери телефону {name}: {', '.join(contact.phones)}"
+    else:
+        return f"Контакт {name} не знайдено."
+
+def add_birthday(name, birthday):
+    contact = book.find_contact(name)
+    if contact:
+        contact.add_birthday(birthday)
+        return f"День народження {name} успішно додано."
+    else:
+        return f"Контакт {name} не знайдено."
+
+def show_birthday(name):
+    contact = book.find_contact(name)
+    if contact:
+        return contact.show_birthday()
+    else:
+        return f"Контакт {name} не знайдено."
+
+def save_address_book(filename):
+    book.save_to_file(filename)
+    return "Адресна книга успішно збережена."
+
+def load_address_book(filename):
+    book.read_from_file(filename)
+    return "Адресна книга успішно завантажена."
 
 HANDLERS = {
+
     "hello": hello,
     "close": exit,
     "exit": exit,
-    # "add": add_contact,
-    # "change": change_contact,
-    # "all": show_all,
-    # "phone": show_phone,
-    # "add-birthday": add_birthday,
-    # "show-birthday": show_birthday,
-    # "save": save_address_book,
-    # "load": load_address_book
+    "add": add_contact,
+    "change": change_contact,
+    "all": show_all,
+    "phone": show_phone,
+    "add-birthday": add_birthday,
+    "show-birthday": show_birthday,
+    "save": save_address_book,
+    "load": load_address_book,
 }
 
 
