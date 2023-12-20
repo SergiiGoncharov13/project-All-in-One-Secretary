@@ -12,7 +12,7 @@ class Record:
     def add_phone(self, phone):
         if phone not in [p.value for p in self.phones]:
             self.phones.append(Phone(phone))
-            return f"Phone {phone} added successfully."
+            return f"Phone {phone} added successfully to {self.name.value}."
         else:
             return f"Phone {phone} already exists."
 
@@ -57,8 +57,8 @@ class Record:
 
     def to_json(self):
         return {
-            "name": str(self.name),
-            "phones": [str(phone) for phone in self.phones],
+            "name": self.name.value,
+            "phones": [phone.value for phone in self.phones],
             "birthday": str(self.birthday) if self.birthday else None,
             "email": str(self.email) if self.email else None,
             "address": str(self.address) if self.address else None,
