@@ -16,8 +16,9 @@ class Field:
         self._value = value
 
     def __str__(self):
-        return f'{self._value}'
-    
+        return f"{self._value}"
+
+
 class Name(Field):
     def __init__(self, value):
         super().__init__(value)
@@ -83,12 +84,11 @@ class Birthday(Field):
 
     def __str__(self):
         return self.value.strftime("%d.%m.%Y") if self.value else None
-    
+
 
 class Address(Field):
     def __init__(self, value):
         super().__init__(value)
-
 
 
 class EmailFormatError(ValueError):
@@ -102,14 +102,14 @@ class Email(Field):
     @property
     def value(self):
         return self.__value
-    
+
     @value.setter
     def value(self, value):
         if re.fullmatch(r"[a-zA-Z][a-zA-Z0-9_.]+@[a-zA-Z]+\.[a-zA-Z]{2,}", value):
             self.__value = value
         else:
             raise EmailFormatError("Invalid email format")
-        
+
 
 class NoteTitle(Field):
     def __init__(self, value):
@@ -126,9 +126,11 @@ class NoteTitle(Field):
         else:
             raise ValueError("Title is a required field.")
 
+
 class NoteContent(Field):
     def __init__(self, value):
         super().__init__(value)
+
 
 class NoteCreationDate(Field):
     def __init__(self, value):
@@ -138,11 +140,12 @@ class NoteCreationDate(Field):
     def __str__(self):
         return self.value.strftime("%d.%m.%Y")
 
+
 class NoteDeadline(Birthday):
     def __init__(self, value):
         super().__init__(value)
 
+
 class NoteTag(Field):
     def __init__(self, value):
         super().__init__(value)
-    

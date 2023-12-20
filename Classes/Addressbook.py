@@ -6,9 +6,9 @@ from func_get_birthday import get_birthdays_in_days
 
 class AddressBook(UserDict):
     def add_record(self, record):
-        if record not in self.data:
-            self.data[record] = Record(record)
-        return self.data[record]
+        if record.name.value not in self.data:
+            self.data[record.name.value] = record
+        return self.data[record.name.value]
 
     def find_contact(self, name):
         return self.data.get(name)
@@ -16,16 +16,16 @@ class AddressBook(UserDict):
     def delete_contact(self, name):
         self.data.pop(name, None)
 
-    def birthdays(self,days):
-        get_birthdays_in_days(self,days)
+    def birthdays(self, days):
+        get_birthdays_in_days(self, days)
 
     def change_contact(self, name, phone, new_phone):
         if name in self.data:
-            self.data[name].edit_phone(phone,new_phone)
-            print (f"{name}'s phone changed")       
+            self.data[name].edit_phone(phone, new_phone)
+            print(f"{name}'s phone changed")
         else:
-            print (f"Contact {name} not found")
-        
+            print(f"Contact {name} not found")
+
     def save_to_file(self, filename):
         try:
             with open(filename, "w") as file:
