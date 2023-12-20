@@ -119,6 +119,28 @@ def load_address_book():
     book.read_from_file(FILENAME_AB)
 
 
+def help() -> str:
+    console.print(
+        "[bold magenta]Main commands:[/bold magenta]\n" \
+        "[bold magenta]load[/bold magenta]  - load the book\n" \
+        "[bold magenta]save[/bold magenta] - save the book\n" \
+        "[bold magenta]add[/bold magenta] - add contact and number\n" \
+        "[bold magenta]find[/bold magenta] - find contact number by name\n" \
+        "[bold magenta]delete-phone[/bold magenta] - delete contact number\n" \
+        "[bold magenta]add-phone[/bold magenta] - add phone to contact\n" \
+        "[bold magenta]change[/bold magenta] - change phone to new phone\n" \
+        "[bold magenta]all[/bold magenta] - show all contacts in AddressBook\n" \
+        "[bold magenta]phone[/bold magenta] - show phone by name\n" \
+        "[bold magenta]add-birthhday[/bold magenta] - add birthday to contact\n" \
+        "[bold magenta]show birthday[/bold magenta] - show contact birthday\n" \
+        "[bold magenta]birthday[/bold magenta] - show all birthdays\n" \
+        "[bold magenta]close[/bold magenta] - close programm\n" \
+        "[bold magenta]exit[/bold magenta] - close programm\n" \
+        "[bold magenta]hello[/bold magenta] - say hello"
+        )
+
+
+
 FILENAME_AB = Path(__file__).parent / "AddressBook.json"
 FILENAME_NB = Path(__file__).parent / "NoteBook.json"
 HANDLERS = {
@@ -137,6 +159,7 @@ HANDLERS = {
     "birthdays": birthdays,
     "save": save_address_book,
     "load": load_address_book,
+    "help": help
 }
 
 
@@ -154,7 +177,7 @@ def parser_input(user_input):
 
 
 def main():
-    console.print("Welcome mate!!", style="blue")
+    console.print("Welcome mate!!, [bold green]help[/bold green] to show all comands", style="blue")
     while True:
         user_input = input("Enter command> ")
         if user_input in ("close", "exit"):
