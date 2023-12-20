@@ -1,6 +1,7 @@
 from Classes.Record import Record
 from Classes.Addressbook import AddressBook
-from Classes.Classes_for_secretary import Name
+from Classes.Classes_for_secretary import DateFormatError,UnrealDateError,InvalidNumberError
+
 from pathlib import Path
 
 book = AddressBook()
@@ -12,6 +13,12 @@ def error_handler(func):
             func(*args, **kwargs)
         except KeyError:
             print("This contact doesn't exist, please try again")
+        except DateFormatError:
+            return "Please use correct date format DD.MM.YYYY."
+        except UnrealDateError:
+            return "Please wrire correct date"
+        except InvalidNumberError:
+            return "Phone number must be 10 digits"
         except ValueError as exception:
             print(exception)
         except IndexError:
@@ -98,7 +105,9 @@ def show_birthday(name):
         print(contact.show_birthday())
     else:
         return f"Contact {name} not found."
-
+    
+def birthdays(days):
+    book.birthdays(days)
 
 def save_address_book():
     book.save_to_file(FILENAME_AB)
@@ -123,6 +132,7 @@ HANDLERS = {
     "phone": show_phone,
     "add-birthday": add_birthday,
     "show-birthday": show_birthday,
+    "birthdays": birthdays,
     "save": save_address_book,
     "load": load_address_book,
 }
