@@ -1,7 +1,9 @@
-from Classes.Addressbook import AddressBook, Record
+from Classes.Record import Record
+from Classes.Addressbook import AddressBook
 from Classes.Classes_for_secretary import Name
 
 book = AddressBook()
+
 
 def error_handler(func):
     def inner(*args, **kwargs):
@@ -15,25 +17,56 @@ def error_handler(func):
             return "This contact cannot be added, it exists already"
         except TypeError:
             return "Unknown command or incorrect number of arguments, please try again"
+
     return inner
+
 
 def hello(*_):
     return "How can I help you?"
 
+
 def exit(*_):
     return "Good bye!"
+
 
 def add_contact(name):
     record = Record(name)
     book.add_record(record)
     return f"Contact {name} added successfully."
 
+
+def find_contact(name):
+    contact = book.find_contact(name)
+    if contact:
+        return f"Contact {name} found:\n{contact}"
+    else:
+        return f"Contact {name} not found."
+
+
+def delete_phone(name, phone):
+    contact = book.find_contact(name)
+    if contact:
+        return contact.remove_phone(phone)
+    else:
+        return f"Contact {name} not found."
+
+
+def add_phone(name, phone):
+    contact = book.find_contact(name)
+    if contact:
+        return contact.add_phone(phone)
+    else:
+        return f"Contact {name} not found."
+
+
 def change_contact(name, phone, new_phone):
     book.change_contact(name, phone, new_phone)
     return f"{name}'s phone number changed successfully."
 
+
 def show_all(*_):
     return str(book)
+
 
 def show_phone(name):
     contact = book.find_contact(name)
@@ -41,6 +74,7 @@ def show_phone(name):
         return f"{name}'s phone numbers: {', '.join(contact.phones)}"
     else:
         return f"Contact {name} not found."
+
 
 def add_birthday(name, birthday):
     contact = book.find_contact(name)
@@ -50,6 +84,7 @@ def add_birthday(name, birthday):
     else:
         return f"Contact {name} not found."
 
+
 def show_birthday(name):
     contact = book.find_contact(name)
     if contact:
@@ -57,19 +92,25 @@ def show_birthday(name):
     else:
         return f"Contact {name} not found."
 
+
 def save_address_book(filename):
     book.save_to_file(filename)
     return "Address book saved successfully."
 
+
 def load_address_book(filename):
     book.read_from_file(filename)
     return "Address book loaded successfully."
+
 
 HANDLERS = {
     "hello": hello,
     "close": exit,
     "exit": exit,
     "add": add_contact,
+    "find": find_contact,
+    "delete-phone": delete_phone,
+    "add-phone": add_phone,
     "change": change_contact,
     "all": show_all,
     "phone": show_phone,
@@ -79,20 +120,23 @@ HANDLERS = {
     "load": load_address_book,
 }
 
+
 @error_handler
 def parser_input(user_input):
-    cmd, *args = user_input.strip().split(' ')
+    cmd, *args = user_input.strip().split(" ")
     try:
         handler = HANDLERS[cmd.lower()]
     except KeyError:
         return "Unknown command, please try again"
-    
+
     try:
         return handler(*args)
     except TypeError:
         return "Incorrect number of arguments, please try again"
 
+
 def main():
+    print("Welcome mate!!")
     while True:
         user_input = input("Enter command> ")
         if user_input in ("close", "exit"):
@@ -100,6 +144,7 @@ def main():
             break
         result = parser_input(user_input)
         print(result)
+
 
 if __name__ == "__main__":
     main()

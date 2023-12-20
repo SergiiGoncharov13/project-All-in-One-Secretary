@@ -12,6 +12,9 @@ class Record:
     def add_phone(self, phone):
         if phone not in [p.value for p in self.phones]:
             self.phones.append(Phone(phone))
+            return f"Phone {phone} added successfully."
+        else:
+            return f"Phone {phone} already exists."
 
     def edit_phone(self, phone, new_phone):
         self.phones = [p for p in self.phones if p.value != phone]
@@ -26,11 +29,17 @@ class Record:
     def __str__(self):
         email_str = str(self.email) if self.email is not None else "Unknown"
         address_str = str(self.address) if self.address is not None else "Unknown"
-        phones_str = "; ".join(p.value for p in self.phones) if self.phones else "No phones added"
-        return (f"Contact name: {self.name.value}, "
-                f"phones: {phones_str}, "
-                f"email: {email_str}, "
-                f"address: {address_str}, ")
+        phones_str = (
+            "; ".join(p.value for p in self.phones)
+            if self.phones
+            else "No phones added"
+        )
+        return (
+            f"Contact name: {self.name.value}, "
+            f"phones: {phones_str}, "
+            f"email: {email_str}, "
+            f"address: {address_str}, "
+        )
 
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
@@ -39,11 +48,11 @@ class Record:
         if self.birthday:
             return f"{self.name.value}'s birthday is on {self.birthday.value.strftime('%d %B %Y')}"
         return f"No information about {self.name.value}'s date of birth"
-    
-    def add_email(self,email):
-       self.email = Email(email)
 
-    def add_address(self,address):
+    def add_email(self, email):
+        self.email = Email(email)
+
+    def add_address(self, address):
         self.address = Address(address)
 
     def to_json(self):
@@ -66,4 +75,3 @@ class Record:
         if data["address"]:
             record.add_address(data["address"])
         return record
-    

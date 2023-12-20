@@ -1,7 +1,6 @@
 from Classes.Classes_for_secretary import Birthday
 from datetime import datetime
-from collections import defaultdict   
-
+from collections import defaultdict
 
 
 def get_birthdays_in_days(self, days_ahead):
@@ -12,7 +11,9 @@ def get_birthdays_in_days(self, days_ahead):
         for record in records:
             if record.birthday:
                 name = record.name.value
-                birthday = datetime.strptime(record.birthday.value, Birthday.DATE_FORMAT).date()
+                birthday = datetime.strptime(
+                    record.birthday.value, Birthday.DATE_FORMAT
+                ).date()
                 birthday_this_year = birthday.replace(year=today.year)
 
                 if birthday_this_year < today:
@@ -27,7 +28,8 @@ def get_birthdays_in_days(self, days_ahead):
             print(f"Upcoming birthdays in the next {days_ahead} days:")
             for name, birthdays in upcoming_birthdays.items():
                 for birthday, delta_days in birthdays:
-                    print(f"{name}'s birthday is on {birthday.strftime('%Y-%m-%d')}, {delta_days} days from today.")
+                    print(
+                        f"{name}'s birthday is on {birthday.strftime('%Y-%m-%d')}, {delta_days} days from today."
+                    )
         else:
             print(f"No upcoming birthdays in the next {days_ahead} days.")
-           
