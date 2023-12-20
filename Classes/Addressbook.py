@@ -22,7 +22,6 @@ class AddressBook(UserDict):
     def change_contact(self, name, phone, new_phone):
         if name in self.data:
             self.data[name].edit_phone(phone, new_phone)
-            print(f"{name}'s phone changed")
         else:
             print(f"Contact {name} not found")
 

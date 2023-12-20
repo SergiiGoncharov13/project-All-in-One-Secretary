@@ -1,6 +1,7 @@
 from Classes.Record import Record
 from Classes.Addressbook import AddressBook
 from Classes.Classes_for_secretary import Name
+from pathlib import Path
 
 book = AddressBook()
 
@@ -8,101 +9,107 @@ book = AddressBook()
 def error_handler(func):
     def inner(*args, **kwargs):
         try:
-            return func(*args, **kwargs)
+            func(*args, **kwargs)
         except KeyError:
-            return "This contact doesn't exist, please try again"
+            print("This contact doesn't exist, please try again")
         except ValueError as exception:
-            return str(exception)
+            print(exception)
         except IndexError:
-            return "This contact cannot be added, it exists already"
+            print("This contact cannot be added, it exists already")
         except TypeError:
-            return "Unknown command or incorrect number of arguments, please try again"
+            print("Unknown command or incorrect number of arguments, please try again")
 
     return inner
 
 
 def hello(*_):
-    return "How can I help you?"
+    print("How can I help you?")
 
 
 def exit(*_):
-    return "Good bye!"
+    print("Good bye!")
 
 
-def add_contact(name):
+def add_contact(name, phone):
     record = Record(name)
     book.add_record(record)
-    return f"Contact {name} added successfully."
+    record.add_phone(phone)
+    print(f"Contact {name} added successfully.")
 
 
 def find_contact(name):
     contact = book.find_contact(name)
     if contact:
-        return f"Contact {name} found:\n{contact}"
+        print(f"Contact {name} found:\n{contact}")
     else:
-        return f"Contact {name} not found."
+        print(f"Contact {name} not found.")
 
 
 def delete_phone(name, phone):
     contact = book.find_contact(name)
     if contact:
-        return contact.remove_phone(phone)
+        contact.remove_phone(phone)
+        print(f"{name}'s phone {phone} deleted")
     else:
-        return f"Contact {name} not found."
+        print(f"Contact {name} not found.")
 
 
 def add_phone(name, phone):
     contact = book.find_contact(name)
     if contact:
-        return contact.add_phone(phone)
+        print(contact.add_phone(phone))
     else:
-        return f"Contact {name} not found."
+        print(f"Contact {name} not found.")
 
 
 def change_contact(name, phone, new_phone):
     book.change_contact(name, phone, new_phone)
-    return f"{name}'s phone number changed successfully."
+    print(f"{name}'s phone number changed successfully.")
 
 
 def show_all(*_):
-    return str(book)
+    if book.data:
+        for contact in book.data.values():
+            print(contact)
+    else:
+        print("Contact list is empty")
 
 
 def show_phone(name):
     contact = book.find_contact(name)
     if contact:
-        return f"{name}'s phone numbers: {', '.join(contact.phones)}"
+        print(f"{name}'s phone numbers: {', '.join(p.value for p in contact.phones)}")
     else:
-        return f"Contact {name} not found."
+        print(f"Contact {name} not found.")
 
 
 def add_birthday(name, birthday):
     contact = book.find_contact(name)
     if contact:
         contact.add_birthday(birthday)
-        return f"{name}'s birthday added successfully."
+        print(f"{name}'s birthday added successfully.")
     else:
-        return f"Contact {name} not found."
+        print(f"Contact {name} not found.")
 
 
 def show_birthday(name):
     contact = book.find_contact(name)
     if contact:
-        return contact.show_birthday()
+        print(contact.show_birthday())
     else:
         return f"Contact {name} not found."
 
 
-def save_address_book(filename):
-    book.save_to_file(filename)
-    return "Address book saved successfully."
+def save_address_book():
+    book.save_to_file(FILENAME_AB)
 
 
-def load_address_book(filename):
-    book.read_from_file(filename)
-    return "Address book loaded successfully."
+def load_address_book():
+    book.read_from_file(FILENAME_AB)
 
 
+FILENAME_AB = Path(__file__).parent / "AddressBook.json"
+FILENAME_NB = Path(__file__).parent / "NoteBook.json"
 HANDLERS = {
     "hello": hello,
     "close": exit,
@@ -127,12 +134,11 @@ def parser_input(user_input):
     try:
         handler = HANDLERS[cmd.lower()]
     except KeyError:
-        return "Unknown command, please try again"
-
+        print("Unknown command, please try again")
     try:
         return handler(*args)
     except TypeError:
-        return "Incorrect number of arguments, please try again"
+        print("Incorrect number of arguments, please try again")
 
 
 def main():
@@ -142,8 +148,7 @@ def main():
         if user_input in ("close", "exit"):
             print("Good bye!")
             break
-        result = parser_input(user_input)
-        print(result)
+        parser_input(user_input)
 
 
 if __name__ == "__main__":
