@@ -1,8 +1,10 @@
 from Classes.Record import Record
+from rich.console import Console
 from collections import UserDict
 import json
 from func_get_birthday import get_birthdays_in_days
 
+console = Console()
 
 class AddressBook(UserDict):
     def add_record(self, record):
@@ -23,20 +25,20 @@ class AddressBook(UserDict):
         if name in self.data:
             self.data[name].edit_phone(phone, new_phone)
         else:
-            print(f"Contact {name} not found")
+            console.print(f"Contact {name} not found", style="red")
 
     def save_to_file(self, filename):
         try:
             with open(filename, "w") as file:
                 data = {name: record.to_json() for name, record in self.data.items()}
                 json.dump(data, file)
-                print("Address book is saved to file")
+                console.print("Address book is saved to file", style="green")
         except FileNotFoundError:
-            print("File not found. Address book isn't saved")
+            console.print("File not found. Address book isn't saved", style="red")
         except PermissionError:
-            print("Acces s to file is denied. Address book isn't saved.")
+            console.print("Access to file is denied. Address book isn't saved.", style="red")
         except Exception as e:
-            print(f"Error! Address book isn't saved: {e}")
+            console.print(f"Error! Address book isn't saved: {e}", style="red")
 
     def read_from_file(self, filename):
         try:
@@ -44,10 +46,10 @@ class AddressBook(UserDict):
                 data = json.load(file)
                 for name, record_data in data.items():
                     self.data[name] = Record.from_json(record_data)
-                print("Adress book is loaded from file")
+                console.print("Adress book is loaded from file", style="green")
         except FileNotFoundError:
-            print("File not found. Creating a new address book.")
+            console.print("File not found. Creating a new address book.", style="red")
         except PermissionError:
-            print("Access to file is denied. Creating a new address book.")
+            console.print("Access to file is denied. Creating a new address book.", style="red")
         except Exception as e:
-            print(f"Error by loadind file. Creating a new address book: {e}.")
+            console.print(f"Error by loadind file. Creating a new address book: {e}.", style="red")

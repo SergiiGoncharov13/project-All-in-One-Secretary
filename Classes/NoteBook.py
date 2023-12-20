@@ -1,3 +1,4 @@
+from rich.console import Console
 from collections import UserDict, defaultdict
 from datetime import datetime
 from Classes.Classes_for_secretary import (
@@ -7,6 +8,9 @@ from Classes.Classes_for_secretary import (
     NoteDeadline,
     NoteTag,
 )
+
+
+console = Console()
 
 
 class NoteRecord:
@@ -70,17 +74,17 @@ class Notebook(UserDict):
     def change_note(self, title, note):
         if title in self.data():
             self.data[title].content = note
-            print(f"Note {title} changed")
+            console.print(f"Note {title} changed", style="green")
         else:
-            print(f"Note {title} not found. Create new note")
+            console.print(f"Note {title} not found. Create new note", style="red")
 
     def change_tag(self, title, tag, new_tag):
         if title in self.data():
             self.data[title].remove_tag(tag)
             self.data[title].add_tag(new_tag)
-            print(f"Tags updated")
+            console.print(f"Tags updated", style="green")
         else:
-            print(f"Note {title} not found.")
+            console.print(f"Note {title} not found.", style="red")
 
     def find_by_title(self, title):
         return self.data.get(title)
