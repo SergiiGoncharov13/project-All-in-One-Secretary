@@ -1,3 +1,4 @@
+import difflib
 from rich.console import Console
 from Classes.Record import Record
 from Classes.Addressbook import AddressBook
@@ -30,9 +31,14 @@ def error_handler(func):
         except ValueError:
             console.print("Exception", style="red")
         except IndexError:
-            console.print("This contact cannot be added, it exists already", style="red")
+            console.print(
+                "This contact cannot be added, it exists already", style="red"
+            )
         except TypeError:
-            console.print("Unknown command or incorrect number of arguments, please try again", style="red")
+            console.print(
+                "Unknown command or incorrect number of arguments, please try again",
+                style="red",
+            )
 
     return inner
 
@@ -72,7 +78,7 @@ def delete_phone(name, phone):
 def add_phone(name, phone):
     contact = book.find_contact(name)
     if contact:
-        console.print(f"contact.add_phone(phone)", style="green" )
+        console.print(f"contact.add_phone(phone)", style="green")
     else:
         console.print(f"Contact {name} not found.", style="red")
 
@@ -93,7 +99,10 @@ def show_all(*_):
 def show_phone(name):
     contact = book.find_contact(name)
     if contact:
-        console.print(f"{name}'s phone numbers: {', '.join(p.value for p in contact.phones)}", style="green")
+        console.print(
+            f"{name}'s phone numbers: {', '.join(p.value for p in contact.phones)}",
+            style="green",
+        )
     else:
         console.print(f"Contact {name} not found.", style="red")
 
@@ -113,7 +122,8 @@ def show_birthday(name):
         console.print(contact.show_birthday(), style="green")
     else:
         console.print(f"Contact {name} not found.", style="red")
-    
+
+
 def birthdays(days):
     book.birthdays(days)
 
@@ -125,26 +135,27 @@ def save_address_book():
 def load_address_book():
     book.read_from_file(FILENAME_AB)
 
-    
+
 def help() -> str:
     console.print(
-        "[bold magenta]Main commands:[/bold magenta]\n" \
-        "[bold magenta]load[/bold magenta]  - load the book\n" \
-        "[bold magenta]save[/bold magenta] - save the book\n" \
-        "[bold magenta]add[/bold magenta] - add contact and number\n" \
-        "[bold magenta]find[/bold magenta] - find contact number by name\n" \
-        "[bold magenta]delete-phone[/bold magenta] - delete contact number\n" \
-        "[bold magenta]add-phone[/bold magenta] - add phone to contact\n" \
-        "[bold magenta]change[/bold magenta] - change phone to new phone\n" \
-        "[bold magenta]all[/bold magenta] - show all contacts in AddressBook\n" \
-        "[bold magenta]phone[/bold magenta] - show phone by name\n" \
-        "[bold magenta]add-birthhday[/bold magenta] - add birthday to contact\n" \
-        "[bold magenta]show birthday[/bold magenta] - show contact birthday\n" \
-        "[bold magenta]birthday[/bold magenta] - show all birthdays\n" \
-        "[bold magenta]close[/bold magenta] - close programm\n" \
-        "[bold magenta]exit[/bold magenta] - close programm\n" \
+        "[bold magenta]Main commands:[/bold magenta]\n"
+        "[bold magenta]load[/bold magenta]  - load the book\n"
+        "[bold magenta]save[/bold magenta] - save the book\n"
+        "[bold magenta]add[/bold magenta] - add contact and number\n"
+        "[bold magenta]find[/bold magenta] - find contact number by name\n"
+        "[bold magenta]delete-phone[/bold magenta] - delete contact number\n"
+        "[bold magenta]add-phone[/bold magenta] - add phone to contact\n"
+        "[bold magenta]change[/bold magenta] - change phone to new phone\n"
+        "[bold magenta]all[/bold magenta] - show all contacts in AddressBook\n"
+        "[bold magenta]phone[/bold magenta] - show phone by name\n"
+        "[bold magenta]add-birthhday[/bold magenta] - add birthday to contact\n"
+        "[bold magenta]show birthday[/bold magenta] - show contact birthday\n"
+        "[bold magenta]birthday[/bold magenta] - show all birthdays\n"
+        "[bold magenta]close[/bold magenta] - close programm\n"
+        "[bold magenta]exit[/bold magenta] - close programm\n"
         "[bold magenta]hello[/bold magenta] - say hello"
-        )
+    )
+
 
 def add_note(*args):
     title, *note_parts = args
@@ -163,9 +174,9 @@ def delete_note(title):
 def find_note_by_title(title):
     note = notebook.find_by_title(title)
     if note:
-        print(f"Note with title {title} found:\n{note}")
+        console.print(f"Note with title {title} found:\n{note}", style="green")
     else:
-        print(f"Note with title {title} not found.")
+        console.print(f"Note with title {title} not found.", style="red")
 
 
 def add_tag(title, tag):
@@ -182,13 +193,13 @@ def change_tag(tag, new_tag):
 
 def find_note_by_tag(tag):
     if notebook.find_by_tag(tag):
-        print(notebook.find_by_tag(tag))
+        console.print(notebook.find_by_tag(tag), style="green")
     else:
-        print(f"No notes found by tag {tag}")
+        console.print(f"No notes found by tag {tag}", style="red")
 
 
 def sort_notes_by_tags():
-    print(notebook.sort_notes_by_tags())
+    console.print(notebook.sort_notes_by_tags(), style="green")
 
 
 def add_deadline(title, date):
@@ -196,7 +207,8 @@ def add_deadline(title, date):
 
 
 def to_do_list(days):
-    print(to_do_list(days))
+    console.print(to_do_list(days), style="green")
+
 
 FILENAME_AB = Path(__file__).parent / "AddressBook.json"
 FILENAME_NB = Path(__file__).parent / "NoteBook.json"
@@ -231,6 +243,16 @@ HANDLERS = {
 }
 
 
+def suggest_command(user_input):
+    closest_match = difflib.get_close_matches(
+        user_input, HANDLERS.keys(), n=1, cutoff=0.8
+    )
+    if closest_match:
+        console.print(f"Perhaps you meant '{closest_match[0]}'?", style="green")
+    else:
+        console.print("Hint not available. Please enter a valid command.", style="red")
+
+
 @error_handler
 def parser_input(user_input):
     cmd, *args = user_input.strip().split(" ")
@@ -238,13 +260,21 @@ def parser_input(user_input):
         handler = HANDLERS[cmd.lower()]
     except KeyError:
         console.print("Unknown command, please try again", style="red")
+        suggestion = suggest_command(cmd.lower())
+        if suggestion:
+            print(suggestion)
+        return
     try:
         return handler(*args)
     except TypeError:
         console.print("Incorrect number of arguments, please try again", style="red")
 
+
 def main():
-    console.print("Welcome mate!!, [bold green]help[/bold green] to show all comands", style="blue")
+    console.print(
+        "Welcome mate!!, [bold green]help[/bold green] to show all comands",
+        style="blue",
+    )
     while True:
         user_input = input("Enter command> ")
         if user_input in ("close", "exit"):
