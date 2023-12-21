@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 
+
 class Field:
     """
     A generic class representing a field with a value.
@@ -21,6 +22,7 @@ class Field:
     def __str__(self):
         return f"{self._value}"
 
+
 class Name(Field):
     """
     Represents a name field.
@@ -40,12 +42,14 @@ class Name(Field):
         else:
             raise ValueError("Name is a required field.")
 
+
 class InvalidNumberError(ValueError):
     """
     Custom exception for invalid phone number format.
     """
 
     pass
+
 
 class Phone(Field):
     """
@@ -66,6 +70,7 @@ class Phone(Field):
         else:
             raise InvalidNumberError("Invalid number format.")
 
+
 class DateFormatError(ValueError):
     """
     Custom exception for invalid date format.
@@ -73,12 +78,14 @@ class DateFormatError(ValueError):
 
     pass
 
+
 class UnrealDateError(ValueError):
     """
     Custom exception for an unreal date (e.g., February 30).
     """
 
     pass
+
 
 class Birthday(Field):
     """
@@ -106,6 +113,7 @@ class Birthday(Field):
     def __str__(self):
         return self.value.strftime("%d.%m.%Y") if self.value else None
 
+
 class Address(Field):
     """
     Represents an address field.
@@ -114,12 +122,14 @@ class Address(Field):
     def __init__(self, value):
         super().__init__(value)
 
+
 class EmailFormatError(ValueError):
     """
     Custom exception for invalid email format.
     """
 
     pass
+
 
 class Email(Field):
     """
@@ -140,6 +150,7 @@ class Email(Field):
         else:
             raise EmailFormatError("Invalid email format")
 
+
 class NoteTitle(Field):
     """
     Represents a note title field.
@@ -159,6 +170,7 @@ class NoteTitle(Field):
         else:
             raise ValueError("Title is a required field.")
 
+
 class NoteContent(Field):
     """
     Represents a note content field.
@@ -166,6 +178,7 @@ class NoteContent(Field):
 
     def __init__(self, value):
         super().__init__(value)
+
 
 class NoteCreationDate(Field):
     """
@@ -178,6 +191,7 @@ class NoteCreationDate(Field):
     def __str__(self):
         return self.value.strftime("%d.%m.%Y")
 
+
 class NoteDeadline(Birthday):
     """
     Represents the deadline of a note.
@@ -185,6 +199,7 @@ class NoteDeadline(Birthday):
 
     def __init__(self, value):
         super().__init__(value)
+
 
 class NoteTag(Field):
     """

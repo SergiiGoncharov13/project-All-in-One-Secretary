@@ -127,6 +127,7 @@ def show_birthday(name):
 def birthdays(days):
     book.birthdays(days)
 
+
 def add_email(name, email):
     contact = book.find_contact(name)
     if contact:
@@ -135,9 +136,10 @@ def add_email(name, email):
     else:
         console.print(f"Contact {name} not found.", style="red")
 
+
 def add_address(*args):
     name, *address_parts = args
-    address = ' '.join(address_parts)
+    address = " ".join(address_parts)
     contact = book.find_contact(name)
     if contact:
         contact.add_address(address)
@@ -218,21 +220,23 @@ def find_note_by_tag(tag):
 
 def sort_notes_by_tags():
     notebook.sort_notes_by_tags()
-    console.print(notebook.sort_notes_by_tags(), style="green")
-    
+
 
 def add_deadline(title, date):
     notebook.add_deadline(title, date)
 
+
 def to_do_list(days):
     notebook.to_do_list(days)
+
 
 def save_notes():
     notebook.save_to_file(FILENAME_NB)
 
+
 def load_notes():
     notebook.read_from_file(FILENAME_NB)
-    console.print(to_do_list(days), style="green")
+
 
 FILENAME_AB = Path(__file__).parent / "AddressBook.json"
 FILENAME_NB = Path(__file__).parent / "NoteBook.json"
@@ -294,8 +298,10 @@ def parser_input(user_input):
         return
     try:
         return handler(*args)
-    except TypeError:
-        console.print("Incorrect number of arguments, please try again", style="red")
+    except TypeError as e:
+        console.print(
+            f"Incorrect number of arguments, please try again: {e}", style="red"
+        )
 
 
 def main():

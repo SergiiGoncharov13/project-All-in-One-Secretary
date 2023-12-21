@@ -1,5 +1,6 @@
 from Classes.Classes_for_secretary import Name, Phone, Birthday, Address, Email
 
+
 class Record:
     """
     Represents a contact record with information such as name, phones, birthday, email, and address.
@@ -48,7 +49,7 @@ class Record:
         """
         String representation of the contact record.
         """
-        email_str = str(self.email) if self.email is not None else "Unknown"
+        email_str = self.email.value if self.email is not None else "Unknown"
         address_str = str(self.address) if self.address is not None else "Unknown"
         phones_str = (
             "; ".join(p.value for p in self.phones)
