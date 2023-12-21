@@ -117,6 +117,24 @@ def show_birthday(name):
 def birthdays(days):
     book.birthdays(days)
 
+def add_email(name, email):
+    contact = book.find_contact(name)
+    if contact:
+        contact.add_email(email)
+        console.print(f"{name}'s email added successfully.", style="green")
+    else:
+        console.print(f"Contact {name} not found.", style="red")
+
+def add_address(*args):
+    name, *address_parts = args
+    address = ' '.join(address_parts)
+    contact = book.find_contact(name)
+    if contact:
+        contact.add_address(address)
+        console.print(f"{name}'s address added successfully.", style="green")
+    else:
+        console.print(f"Contact {name} not found.", style="red")
+
 
 def save_address_book():
     book.save_to_file(FILENAME_AB)
@@ -194,7 +212,6 @@ def sort_notes_by_tags():
 def add_deadline(title, date):
     notebook.add_deadline(title, date)
 
-
 def to_do_list(days):
     notebook.to_do_list(days)
 
@@ -220,6 +237,8 @@ HANDLERS = {
     "add-birthday": add_birthday,
     "show-birthday": show_birthday,
     "birthdays": birthdays,
+    "add-address": add_address,
+    "add-email": add_email,
     "save": save_address_book,
     "load": load_address_book,
     "help": help,

@@ -27,7 +27,7 @@ class Record:
         return next((p.value for p in self.phones if p.value == phone), None)
 
     def __str__(self):
-        email_str = str(self.email) if self.email is not None else "Unknown"
+        email_str = self.email.value if self.email is not None else "Unknown"
         address_str = str(self.address) if self.address is not None else "Unknown"
         phones_str = (
             "; ".join(p.value for p in self.phones)
@@ -60,7 +60,7 @@ class Record:
             "name": self.name.value,
             "phones": [phone.value for phone in self.phones],
             "birthday": str(self.birthday) if self.birthday else None,
-            "email": str(self.email) if self.email else None,
+            "email": self.email.value if self.email else None,
             "address": str(self.address) if self.address else None,
         }
 
