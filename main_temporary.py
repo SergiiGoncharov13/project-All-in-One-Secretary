@@ -1,10 +1,16 @@
 from Classes.Record import Record
 from Classes.Addressbook import AddressBook
-from Classes.Classes_for_secretary import DateFormatError,UnrealDateError,InvalidNumberError
+from Classes.NoteBook import NoteBook
+from Classes.Classes_for_secretary import (
+    DateFormatError,
+    UnrealDateError,
+    InvalidNumberError,
+)
 
 from pathlib import Path
 
 book = AddressBook()
+notebook = NoteBook()
 
 
 def error_handler(func):
@@ -105,9 +111,11 @@ def show_birthday(name):
         print(contact.show_birthday())
     else:
         return f"Contact {name} not found."
-    
+
+
 def birthdays(days):
     book.birthdays(days)
+
 
 def save_address_book():
     book.save_to_file(FILENAME_AB)
@@ -115,6 +123,59 @@ def save_address_book():
 
 def load_address_book():
     book.read_from_file(FILENAME_AB)
+
+
+def add_note(*args):
+    title, *note_parts = args
+    note = " ".join(note_parts)
+    note = notebook.add_note(title, note)
+
+
+def change_note(title, note):
+    notebook.change_note(title, note)
+
+
+def delete_note(title):
+    notebook.delete_note(title)
+
+
+def find_note_by_title(title):
+    note = notebook.find_by_title(title)
+    if note:
+        print(f"Note with title {title} found:\n{note}")
+    else:
+        print(f"Note with title {title} not found.")
+
+
+def add_tag(title, tag):
+    notebook.add_tag(title, tag)
+
+
+def delete_tag(title, tag):
+    notebook.delete_tag(title, tag)
+
+
+def change_tag(tag, new_tag):
+    notebook.change_tag(tag, new_tag)
+
+
+def find_note_by_tag(tag):
+    if notebook.find_by_tag(tag):
+        print(notebook.find_by_tag(tag))
+    else:
+        print(f"No notes found by tag {tag}")
+
+
+def sort_notes_by_tags():
+    print(notebook.sort_notes_by_tags())
+
+
+def add_deadline(title, date):
+    notebook.add_deadline(title, date)
+
+
+def to_do_list(days):
+    print(to_do_list(days))
 
 
 FILENAME_AB = Path(__file__).parent / "AddressBook.json"
@@ -135,6 +196,17 @@ HANDLERS = {
     "birthdays": birthdays,
     "save": save_address_book,
     "load": load_address_book,
+    "add-note": add_note,
+    "change-note": change_note,
+    "delete-note": delete_note,
+    "find-note": find_note_by_title,
+    "find-tag": find_note_by_tag,
+    "add-tag": add_tag,
+    "delete-tag": delete_tag,
+    "change-tag": change_tag,
+    "sort-notes": sort_notes_by_tags,
+    "deadline": add_deadline,
+    "to-do": to_do_list,
 }
 
 
@@ -147,8 +219,8 @@ def parser_input(user_input):
         print("Unknown command, please try again")
     try:
         return handler(*args)
-    except TypeError:
-        print("Incorrect number of arguments, please try again")
+    except TypeError as e:
+        print(f"Incorrect number of arguments, please try again: {e}")
 
 
 def main():
