@@ -6,6 +6,7 @@ from func_get_birthday import get_birthdays_in_days
 
 console = Console()
 
+
 class AddressBook(UserDict):
     def add_record(self, record):
         if record.name.value not in self.data:
@@ -36,7 +37,9 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             console.print("File not found. Address book isn't saved", style="red")
         except PermissionError:
-            console.print("Access to file is denied. Address book isn't saved.", style="red")
+            console.print(
+                "Access to file is denied. Address book isn't saved.", style="red"
+            )
         except Exception as e:
             console.print(f"Error! Address book isn't saved: {e}", style="red")
 
@@ -50,6 +53,10 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             console.print("File not found. Creating a new address book.", style="red")
         except PermissionError:
-            console.print("Access to file is denied. Creating a new address book.", style="red")
+            console.print(
+                "Access to file is denied. Creating a new address book.", style="red"
+            )
         except Exception as e:
-            console.print(f"Error by loadind file. Creating a new address book: {e}.", style="red")
+            console.print(
+                f"Error by loadind file. Creating a new address book: {e}.", style="red"
+            )
