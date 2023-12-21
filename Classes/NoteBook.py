@@ -11,11 +11,13 @@ from Classes.Classes_for_secretary import (
     NoteTag,
 )
 
-
 console = Console()
 
-
 class NoteRecord:
+    """
+    Represents a record in the notebook.
+    """
+
     def __init__(self, title, content):
         self.title = NoteTitle(title)
         self.content = NoteContent(content)
@@ -24,13 +26,22 @@ class NoteRecord:
         self.deadline = None
 
     def add_tag(self, tag):
+        """
+        Add a tag to the note.
+        """
         if tag not in [t.value for t in self.tags]:
             self.tags.append(NoteTag(tag))
 
     def remove_tag(self, tag):
+        """
+        Remove a tag from the note.
+        """
         self.tags = [t for t in self.tags if t.value != tag]
 
     def __str__(self):
+        """
+        String representation of the note.
+        """
         tags_str = "; ".join(t.value for t in self.tags) if self.tags else "No tags"
         deadline_str = (
             str(self.deadline) if self.deadline is not None else "Date is not defined"
@@ -44,9 +55,15 @@ class NoteRecord:
         )
 
     def add_deadline(self, deadline):
+        """
+        Add a deadline to the note.
+        """
         self.deadline = NoteDeadline(deadline)
 
     def to_json(self):
+        """
+        Convert the note to JSON format.
+        """
         return {
             "title": self.title.value,
             "tags": [tag.value for tag in self.tags],
@@ -55,8 +72,12 @@ class NoteRecord:
             "deadline": str(self.deadline) if self.deadline else None,
         }
 
-    def from_json(data):
-        record = NoteRecord(data["title"], data["note"])
+    @classmethod
+    def from_json(cls, data):
+        """
+        Create a NoteRecord instance from JSON data.
+        """
+        record = cls(data["title"], data["note"])
         for tag in data["tags"]:
             record.add_tag(tag)
         record.creation_date = datetime.strptime(
@@ -66,23 +87,35 @@ class NoteRecord:
             record.add_deadline(data["deadline"])
         return record
 
-
 class NoteBook(UserDict):
+    """
+    Represents a collection of notes.
+    """
+
     def add_note(self, title, note):
+        """
+        Add a note to the notebook.
+        """
         if title not in self.data:
             self.data[title] = NoteRecord(title, note)
-            print(f"Note {title} added succesfully")
+            print(f"Note {title} added successfully")
         else:
-            print(f"Note with title {title} already exist. Choose another title")
+            print(f"Note with title {title} already exists. Choose another title")
 
     def change_note(self, title, note):
+        """
+        Change the content of a note in the notebook.
+        """
         if title in self.data:
             self.data[title].content = note
             console.print(f"Note {title} changed", style="green")
         else:
-            console.print(f"Note {title} not found. Create new note", style="red")
+            console.print(f"Note {title} not found. Create a new note", style="red")
 
     def add_tag(self, title, tag):
+        """
+        Add a tag to a note in the notebook.
+        """
         if title in self.data:
             self.data[title].add_tag(tag)
             print(f"Tag {tag} added to note {title}")
@@ -90,6 +123,9 @@ class NoteBook(UserDict):
             print(f"Note with title {title} not found.")
 
     def delete_tag(self, title, tag):
+        """
+        Delete a tag from a note in the notebook.
+        """
         if title in self.data:
             self.data[title].remove_tag(tag)
             print(f"Tag {tag} deleted from note {title}")
@@ -97,7 +133,10 @@ class NoteBook(UserDict):
             print(f"Note with title {title} not found.")
 
     def change_tag(self, title, tag, new_tag):
-        if title in self.data():
+        """
+        Change a tag on a note in the notebook.
+        """
+        if title in self.data:
             self.data[title].remove_tag(tag)
             self.data[title].add_tag(new_tag)
             console.print(f"Tags updated", style="green")
@@ -105,14 +144,23 @@ class NoteBook(UserDict):
             console.print(f"Note {title} not found.", style="red")
 
     def find_by_title(self, title):
+        """
+        Find a note in the notebook by its title.
+        """
         return self.data.get(title)
 
     def find_by_tag(self, tag):
+        """
+        Find notes in the notebook by a tag.
+        """
         return [
             note for note in self.data.values() if tag in [t.value for t in note.tags]
         ]
 
     def delete_note(self, title):
+        """
+        Delete a note from the notebook.
+        """
         if title in self.data:
             self.data.pop(title)
             print(f"Note {title} deleted successfully.")
@@ -120,6 +168,9 @@ class NoteBook(UserDict):
             print(f"Note {title} not found.")
 
     def add_deadline(self, title, date):
+        """
+        Add a deadline to a note in the notebook.
+        """
         if title in self.data:
             self.data[title].add_deadline(date)
             print(f"Deadline for note {title} added successfully.")
@@ -130,6 +181,9 @@ class NoteBook(UserDict):
         to_do_list(self,days)
 
     def sort_notes_by_tags(self):
+        """
+        Sort notes in the notebook by tags.
+        """
         sorted_by_tags = defaultdict(list)
         for note in self.data.values():
             if note.tags:
