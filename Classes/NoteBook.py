@@ -13,6 +13,7 @@ from Classes.Classes_for_secretary import (
 
 console = Console()
 
+
 class NoteRecord:
     """
     Represents a record in the notebook.
@@ -86,6 +87,7 @@ class NoteRecord:
         if data["deadline"]:
             record.add_deadline(data["deadline"])
         return record
+
 
 class NoteBook(UserDict):
     """
@@ -176,9 +178,9 @@ class NoteBook(UserDict):
             print(f"Deadline for note {title} added successfully.")
         else:
             print(f"Note with title {title} not found.")
-    
-    def to_do_list(self,days):
-        to_do_list(self,days)
+
+    def to_do_list(self, days):
+        to_do_list(self, days)
 
     def sort_notes_by_tags(self):
         """
@@ -192,21 +194,20 @@ class NoteBook(UserDict):
             else:
                 sorted_by_tags["Without tags"].append(note.content.value)
         for tag, notes in sorted_by_tags.items():
-            print(f"{tag}: {'; '.join(notes)}")
-       
-    
+            console.print(f"{tag}: {'; '.join(notes)}", style="green")
+
     def save_to_file(self, filename):
         try:
             with open(filename, "w") as file:
                 data = {title: note.to_json() for title, note in self.data.items()}
                 json.dump(data, file)
-                print("Address book is saved to file")
+                print("Note book is saved to file")
         except FileNotFoundError:
-            print("File not found. Address book isn't saved")
+            print("File not found. Note book isn't saved")
         except PermissionError:
-            print("Acces s to file is denied. Address book isn't saved.")
+            print("Acces s to file is denied. Note book isn't saved.")
         except Exception as e:
-            print(f"Error! Address book isn't saved: {e}")
+            print(f"Error! Note book isn't saved: {e}")
 
     def read_from_file(self, filename):
         try:
@@ -214,10 +215,10 @@ class NoteBook(UserDict):
                 data = json.load(file)
                 for title, note_data in data.items():
                     self.data[title] = NoteRecord.from_json(note_data)
-                print("Adress book is loaded from file")
+                console.print("Note book is loaded from file", style="green")
         except FileNotFoundError:
-            print("File not found. Creating a new address book.")
+            print("File not found. Creating a new note book.")
         except PermissionError:
-            print("Access to file is denied. Creating a new address book.")
+            print("Access to file is denied. Creating a new note book.")
         except Exception as e:
-            print(f"Error by loadind file. Creating a new address book: {e}.")
+            print(f"Error by loadind file. Creating a new note book: {e}.")

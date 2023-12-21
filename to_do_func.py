@@ -1,5 +1,8 @@
 from collections import defaultdict, OrderedDict
 from datetime import datetime
+from rich.console import Console
+
+console = Console()
 
 
 def to_do_list(notebook, days):
@@ -11,11 +14,11 @@ def to_do_list(notebook, days):
             delta_days = (note_record.deadline.value - today).days
             if 0 <= delta_days < int(days):
                 deadline_date = str(note_record.deadline)
-                to_do_list[deadline_date].append(note_record.content)
+                to_do_list[deadline_date].append(note_record.content.value)
     if to_do_list:
         sorted_to_do_list = OrderedDict(sorted(to_do_list.items()))
         for date, notes in sorted_to_do_list.items():
-            notes_str = '; '.join(str(note) for note in notes)
-            print(f"{date}: {notes_str}")
+            notes_str = "; ".join(str(note) for note in notes)
+            console.print(f"{date}: {notes_str}", style="green")
     else:
-        print(f"There aren't any tasks in next {days} days")
+        console.print(f"There aren't any tasks in next {days} days", style="green")

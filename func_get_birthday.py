@@ -5,6 +5,7 @@ from collections import defaultdict
 # Initialize the Rich Console for enhanced output
 console = Console()
 
+
 # Function to retrieve upcoming birthdays within a specified number of days
 def get_birthdays_in_days(self, days_ahead):
     today = datetime.today().date()
