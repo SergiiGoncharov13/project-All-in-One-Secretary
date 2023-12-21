@@ -3,7 +3,6 @@ from datetime import datetime
 from Classes.Classes_for_secretary import (
     NoteTitle,
     NoteContent,
-    NoteCreationDate,
     NoteDeadline,
     NoteTag,
 )
@@ -42,9 +41,9 @@ class NoteRecord:
 
     def to_json(self):
         return {
-            "title": str(self.title),
-            "tags": [str(tag) for tag in self.tags],
-            "note": str(self.content),
+            "title": self.title.value,
+            "tags": [tag.value for tag in self.tags],
+            "note": self.content.value,
             "date_of_creation": str(self.creation_date),
             "deadline": str(self.deadline) if self.deadline else None,
         }
@@ -61,18 +60,34 @@ class NoteRecord:
         return record
 
 
-class Notebook(UserDict):
+class NoteBook(UserDict):
     def add_note(self, title, note):
         if title not in self.data:
             self.data[title] = NoteRecord(title, note)
-        return self.data[title]
+            print(f"Note {title} added succesfully")
+        else:
+            print(f"Note with title {title} already exist. Choose another title")
 
     def change_note(self, title, note):
-        if title in self.data():
+        if title in self.data:
             self.data[title].content = note
             print(f"Note {title} changed")
         else:
             print(f"Note {title} not found. Create new note")
+
+    def add_tag(self, title, tag):
+        if title in self.data:
+            self.data[title].add_tag(tag)
+            print(f"Tag {tag} added to note {title}")
+        else:
+            print(f"Note with title {title} not found.")
+
+    def delete_tag(self, title, tag):
+        if title in self.data:
+            self.data[title].remove_tag(tag)
+            print(f"Tag {tag} deleted from note {title}")
+        else:
+            print(f"Note with title {title} not found.")
 
     def change_tag(self, title, tag, new_tag):
         if title in self.data():
@@ -90,22 +105,26 @@ class Notebook(UserDict):
             note for note in self.data.values() if tag in [t.value for t in note.tags]
         ]
 
-    def find_by_date_of_creation(self, date):
-        return [
-            note
-            for note in self.data.values()
-            if NoteCreationDate(date) == note.creation_date
-        ]
-
     def delete_note(self, title):
-        self.data.pop(title, None)
+        if title in self.data:
+            self.data.pop(title)
+            print(f"Note {title} deleted successfully.")
+        else:
+            print(f"Note {title} not found.")
+
+    def add_deadline(self, title, date):
+        if title in self.data:
+            self.data[title].add_deadline(date)
+            print(f"Deadline for note {title} added successfully.")
+        else:
+            print(f"Note with title {title} not found.")
 
     def sort_notes_by_tags(self):
         sorted_by_tags = defaultdict(list)
         for note in self.data.values():
             if note.tags:
                 for tag in note.tags:
-                    sorted_by_tags[tag.value].append(note)
+                    sorted_by_tags[tag.value].append(note.content)
             else:
-                sorted_by_tags["Without tags"].append(note)
+                sorted_by_tags["Without tags"].append(note.content)
         return dict(sorted_by_tags)
