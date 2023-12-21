@@ -127,6 +127,24 @@ def show_birthday(name):
 def birthdays(days):
     book.birthdays(days)
 
+def add_email(name, email):
+    contact = book.find_contact(name)
+    if contact:
+        contact.add_email(email)
+        console.print(f"{name}'s email added successfully.", style="green")
+    else:
+        console.print(f"Contact {name} not found.", style="red")
+
+def add_address(*args):
+    name, *address_parts = args
+    address = ' '.join(address_parts)
+    contact = book.find_contact(name)
+    if contact:
+        contact.add_address(address)
+        console.print(f"{name}'s address added successfully.", style="green")
+    else:
+        console.print(f"Contact {name} not found.", style="red")
+
 
 def save_address_book():
     book.save_to_file(FILENAME_AB)
@@ -199,16 +217,22 @@ def find_note_by_tag(tag):
 
 
 def sort_notes_by_tags():
+    notebook.sort_notes_by_tags()
     console.print(notebook.sort_notes_by_tags(), style="green")
-
+    
 
 def add_deadline(title, date):
     notebook.add_deadline(title, date)
 
-
 def to_do_list(days):
-    console.print(to_do_list(days), style="green")
+    notebook.to_do_list(days)
 
+def save_notes():
+    notebook.save_to_file(FILENAME_NB)
+
+def load_notes():
+    notebook.read_from_file(FILENAME_NB)
+    console.print(to_do_list(days), style="green")
 
 FILENAME_AB = Path(__file__).parent / "AddressBook.json"
 FILENAME_NB = Path(__file__).parent / "NoteBook.json"
@@ -226,6 +250,8 @@ HANDLERS = {
     "add-birthday": add_birthday,
     "show-birthday": show_birthday,
     "birthdays": birthdays,
+    "add-address": add_address,
+    "add-email": add_email,
     "save": save_address_book,
     "load": load_address_book,
     "help": help,
@@ -240,6 +266,8 @@ HANDLERS = {
     "sort-notes": sort_notes_by_tags,
     "deadline": add_deadline,
     "to-do": to_do_list,
+    "save-notes": save_notes,
+    "load-notes": load_notes,
 }
 
 

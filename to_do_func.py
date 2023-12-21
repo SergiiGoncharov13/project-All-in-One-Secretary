@@ -14,7 +14,8 @@ def to_do_list(notebook, days):
                 to_do_list[deadline_date].append(note_record.content)
     if to_do_list:
         sorted_to_do_list = OrderedDict(sorted(to_do_list.items()))
-        for date, note in sorted_to_do_list.items():
-            print(f"{date}: {'; '.join(note)}")
+        for date, notes in sorted_to_do_list.items():
+            notes_str = '; '.join(str(note) for note in notes)
+            print(f"{date}: {notes_str}")
     else:
         print(f"There aren't any tasks in next {days} days")

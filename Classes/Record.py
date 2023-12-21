@@ -96,7 +96,7 @@ class Record:
             "name": self.name.value,
             "phones": [phone.value for phone in self.phones],
             "birthday": str(self.birthday) if self.birthday else None,
-            "email": str(self.email) if self.email else None,
+            "email": self.email.value if self.email else None,
             "address": str(self.address) if self.address else None,
         }
 
