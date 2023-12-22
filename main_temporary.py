@@ -78,7 +78,8 @@ def delete_phone(name, phone):
 def add_phone(name, phone):
     contact = book.find_contact(name)
     if contact:
-        console.print(f"contact.add_phone(phone)", style="green")
+       contact.add_phone(phone)
+       console.print(f"Phone {phone} was successfully added to {name}", style="green")
     else:
         console.print(f"Contact {name} not found.", style="red")
 
