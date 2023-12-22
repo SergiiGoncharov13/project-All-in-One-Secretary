@@ -1,8 +1,8 @@
-from Classes.Record import Record
+from All_in_One_Secretary.Classes.Record import Record
 from rich.console import Console
 from collections import UserDict
 import json
-from func_get_birthday import get_birthdays_in_days
+from All_in_One_Secretary.func_get_birthday import get_birthdays_in_days
 
 console = Console()
 

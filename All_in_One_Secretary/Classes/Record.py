@@ -1,4 +1,4 @@
-from Classes.Classes_for_secretary import Name, Phone, Birthday, Address, Email
+from All_in_One_Secretary.Classes.Classes_for_secretary import Name, Phone, Birthday, Address, Email
 
 
 class Record:

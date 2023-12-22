@@ -1,9 +1,9 @@
 import difflib
 from rich.console import Console
-from Classes.Record import Record
-from Classes.Addressbook import AddressBook
-from Classes.NoteBook import NoteBook
-from Classes.Classes_for_secretary import (
+from All_in_One_Secretary.Classes.Record import Record
+from All_in_One_Secretary.Classes.Addressbook import AddressBook
+from All_in_One_Secretary.Classes.NoteBook import NoteBook
+from All_in_One_Secretary.Classes.Classes_for_secretary import (
     DateFormatError,
     UnrealDateError,
     InvalidNumberError,

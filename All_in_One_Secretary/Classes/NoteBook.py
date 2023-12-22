@@ -1,9 +1,9 @@
 from rich.console import Console
 from collections import UserDict, defaultdict
 from datetime import datetime
-from to_do_func import to_do_list
+from All_in_One_Secretary.to_do_func import to_do_list
 import json
-from Classes.Classes_for_secretary import (
+from All_in_One_Secretary.Classes.Classes_for_secretary import (
     NoteTitle,
     NoteContent,
     NoteDeadline,
