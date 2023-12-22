@@ -174,7 +174,21 @@ def help() -> str:
         "[bold magenta]birthday[/bold magenta] - show all birthdays\n"
         "[bold magenta]close[/bold magenta] - close programm\n"
         "[bold magenta]exit[/bold magenta] - close programm\n"
-        "[bold magenta]hello[/bold magenta] - say hello"
+        "[bold magenta]hello[/bold magenta] - say hello\n"
+        "[bold magenta]add-address[/bold magenta] - add address to contact\n"
+        "[bold magenta]add-email[/bold magenta] - add email to contact\n"
+        "[bold magenta]add-note[/bold magenta] - add note to title\n"
+        "[bold magenta]change-note[/bold magenta] - change note by title\n"
+        "[bold magenta]delete-note[/bold magenta] - delete note by title\n"
+        "[bold magenta]find-note[/bold magenta] - find note by title\n"
+        "[bold magenta]find-tag[/bold magenta] - find note by tag\n"
+        "[bold magenta]add-tag[/bold magenta] - add tag by title\n"
+        "[bold magenta]change-tag[/bold magenta] - change tag by title\n"
+        "[bold magenta]sort-notes[/bold magenta] - sort note by tags\n"
+        "[bold magenta]deadline[/bold magenta] - add deadline to title by date\n"
+        "[bold magenta]save-notes[/bold magenta] - save note\n"
+        "[bold magenta]load-notes[/bold magenta] - load note\n"
+        "[bold magenta]to-do[/bold magenta] - a list of work to be done by that day\n"
     )
 
 
