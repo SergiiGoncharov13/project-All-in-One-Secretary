@@ -188,7 +188,7 @@ def help() -> str:
         "[bold magenta]deadline[/bold magenta] - add deadline to title by date\n"
         "[bold magenta]save-notes[/bold magenta] - save note\n"
         "[bold magenta]load-notes[/bold magenta] - load note\n"
-        "[bold magenta]to-do[/bold magenta] - a list of work to be done by that day\n"
+        "[bold magenta]to-do[/bold magenta] - a list of work to be done by that day"
     )
 
 
