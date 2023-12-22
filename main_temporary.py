@@ -29,7 +29,7 @@ def error_handler(func):
         except InvalidNumberError:
             console.print("Phone number must be 10 digits", style="red")
         except ValueError:
-            console.print("Exception", style="red")
+            console.print("Not enough values (expected 2 parameters)", style="red")
         except IndexError:
             console.print(
                 "This contact cannot be added, it exists already", style="red"

@@ -100,9 +100,9 @@ class NoteBook(UserDict):
         """
         if title not in self.data:
             self.data[title] = NoteRecord(title, note)
-            print(f"Note {title} added successfully")
+            console.print(f"Note {title} added successfully", style="green")
         else:
-            print(f"Note with title {title} already exists. Choose another title")
+            console.print(f"Note with title {title} already exists. Choose another title", style="red")
 
     def change_note(self, title, note):
         """
@@ -120,9 +120,9 @@ class NoteBook(UserDict):
         """
         if title in self.data:
             self.data[title].add_tag(tag)
-            print(f"Tag {tag} added to note {title}")
+            console.print(f"Tag {tag} added to note {title}",style="green")
         else:
-            print(f"Note with title {title} not found.")
+            console.print(f"Note with title {title} not found.", style="red")
 
     def delete_tag(self, title, tag):
         """
@@ -130,9 +130,9 @@ class NoteBook(UserDict):
         """
         if title in self.data:
             self.data[title].remove_tag(tag)
-            print(f"Tag {tag} deleted from note {title}")
+            console.print(f"Tag {tag} deleted from note {title}", style="green")
         else:
-            print(f"Note with title {title} not found.")
+            console.print(f"Note with title {title} not found.", style="red")
 
     def change_tag(self, title, tag, new_tag):
         """
@@ -165,9 +165,9 @@ class NoteBook(UserDict):
         """
         if title in self.data:
             self.data.pop(title)
-            print(f"Note {title} deleted successfully.")
+            console.print(f"Note {title} deleted successfully.", style="green")
         else:
-            print(f"Note {title} not found.")
+            console.print(f"Note {title} not found.", style="red")
 
     def add_deadline(self, title, date):
         """
@@ -175,9 +175,9 @@ class NoteBook(UserDict):
         """
         if title in self.data:
             self.data[title].add_deadline(date)
-            print(f"Deadline for note {title} added successfully.")
+            console.print(f"Deadline for note {title} added successfully.", style="green")
         else:
-            print(f"Note with title {title} not found.")
+            console.print(f"Note with title {title} not found.", style="red")
 
     def to_do_list(self, days):
         to_do_list(self, days)
@@ -201,13 +201,13 @@ class NoteBook(UserDict):
             with open(filename, "w") as file:
                 data = {title: note.to_json() for title, note in self.data.items()}
                 json.dump(data, file)
-                print("Note book is saved to file")
+                console.print("Note book is saved to file", style="green")
         except FileNotFoundError:
-            print("File not found. Note book isn't saved")
+            console.print("File not found. Note book isn't saved", style="red")
         except PermissionError:
-            print("Acces s to file is denied. Note book isn't saved.")
+            console.print("Acces s to file is denied. Note book isn't saved.", style="red")
         except Exception as e:
-            print(f"Error! Note book isn't saved: {e}")
+            console.print(f"Error! Note book isn't saved: {e}", style="red")
 
     def read_from_file(self, filename):
         try:
@@ -217,8 +217,8 @@ class NoteBook(UserDict):
                     self.data[title] = NoteRecord.from_json(note_data)
                 console.print("Note book is loaded from file", style="green")
         except FileNotFoundError:
-            print("File not found. Creating a new note book.")
+            console.print("File not found. Creating a new note book.", style="red")
         except PermissionError:
-            print("Access to file is denied. Creating a new note book.")
+            console.print("Access to file is denied. Creating a new note book.", style="red")
         except Exception as e:
-            print(f"Error by loadind file. Creating a new note book: {e}.")
+            console.print(f"Error by loadind file. Creating a new note book: {e}.", style="red")
